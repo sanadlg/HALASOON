@@ -12,99 +12,104 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e6073f;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px;
+            overflow: hidden;
         }
 
         .container {
             background: white;
-            padding: 40px;
+            padding: 60px 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            max-width: 500px;
-            width: 100%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 90%;
+            position: relative;
+            border: 8px solid #ffd700;
         }
 
         .company-name {
-            color: #d35400;
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            font-weight: bold;
+            color: #e6073f;
+            font-size: 4em;
+            margin-bottom: 20px;
+            font-weight: 900;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
         .branch {
-            color: #e67e22;
-            font-size: 1.8em;
-            margin-bottom: 40px;
+            color: #8B0000;
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .location {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 60px;
+            font-weight: 600;
         }
 
         .download-btn {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            background: linear-gradient(45deg, #e6073f, #ff3366);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.3em;
+            padding: 20px 60px;
+            font-size: 1.8em;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 30px;
+            margin: 40px 0;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(230, 7, 63, 0.4);
         }
 
         .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            background: linear-gradient(45deg, #c0392b, #a93226);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(230, 7, 63, 0.6);
         }
 
         .progress-container {
             display: none;
-            margin-bottom: 20px;
+            margin: 30px 0;
         }
 
         .progress-bar {
             width: 100%;
-            height: 20px;
-            background: #ecf0f1;
-            border-radius: 10px;
+            height: 30px;
+            background: #f0f0f0;
+            border-radius: 15px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            border: 2px solid #ddd;
         }
 
         .progress {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #2ecc71, #27ae60);
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, #4CAF50, #2E7D32);
+            transition: width 0.4s ease;
         }
 
         .progress-text {
-            font-size: 1.1em;
-            color: #2c3e50;
+            font-size: 1.5em;
+            color: #333;
             font-weight: bold;
+            margin-bottom: 20px;
         }
 
-        .coming-soon {
+        .loading-message {
             display: none;
-            color: #e74c3c;
+            color: #e6073f;
             font-size: 2em;
-            font-weight: bold;
-            margin-top: 20px;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            font-weight: 700;
+            margin-top: 10px;
         }
 
         .loading-dots {
@@ -127,6 +132,7 @@
     <div class="container">
         <div class="company-name">شركة حلا للحلويات</div>
         <div class="branch">الفرع الخامس</div>
+        <div class="location">النصب التذكاري</div>
         
         <button class="download-btn" onclick="startDownload()">تحميل</button>
         
@@ -135,10 +141,9 @@
                 <div class="progress" id="progressBar"></div>
             </div>
             <div class="progress-text" id="progressText">0%</div>
-        </div>
-        
-        <div class="coming-soon" id="comingSoon">
-            انتظرونا قريبا<span class="loading-dots"></span>
+            <div class="loading-message" id="loadingMessage">
+                جاري التحميل<span class="loading-dots"></span>
+            </div>
         </div>
     </div>
 
@@ -151,8 +156,12 @@
             const progressContainer = document.getElementById('progressContainer');
             const progressBar = document.getElementById('progressBar');
             const progressText = document.getElementById('progressText');
+            const loadingMessage = document.getElementById('loadingMessage');
             
             progressContainer.style.display = 'block';
+            
+            // إظهار "جاري التحميل" مباشرة
+            loadingMessage.style.display = 'block';
             
             // محاكاة عملية التحميل
             let progress = 0;
@@ -162,12 +171,7 @@
                 if (progress >= 85) {
                     progress = 85;
                     clearInterval(interval);
-                    
-                    // الانتظار قليلاً ثم إظهار "انتظرونا قريبا"
-                    setTimeout(() => {
-                        progressContainer.style.display = 'none';
-                        document.getElementById('comingSoon').style.display = 'block';
-                    }, 1000);
+                    // لا نخفي شريط التقدم، يبقى مرئياً عند 85%
                 }
                 
                 progressBar.style.width = progress + '%';
